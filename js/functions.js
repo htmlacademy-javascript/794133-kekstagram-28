@@ -1,8 +1,6 @@
 // Функция для проверки длины строки.
 
-const checkStringLength = function (string, testedLength) {
-  return string.length === testedLength;
-};
+const checkStringLength = (string, testedLength) => string.length === testedLength;
 
 checkStringLength('Академия', 8); // true
 checkStringLength('Полезные материалы', 18); // true
@@ -11,16 +9,11 @@ checkStringLength('Полезные материалы', 9); // false
 
 // Функция для проверки, является ли строка палиндромом.
 
-const isPalindrome = function (string) {
-  let testedString = '';
-  for (let i = 0; i < string.length; i++) {
-    if (string[i] !== ' ') {
-      testedString += string[i].toLowerCase();
-    }
-  }
-  const lastIndex = testedString.length - 1;
-  for (let i = 0; i < Math.round(testedString.length) / 2; i++) {
-    if (testedString[i] !== testedString[lastIndex - i]) {
+const isPalindrome = (string) => {
+  const convertedString = string.toLowerCase().replaceAll(' ', '');
+  const lastIndex = convertedString.length - 1;
+  for (let i = 0; i < Math.round(convertedString.length) / 2; i++) {
+    if (convertedString[i] !== convertedString[lastIndex - i]) {
       return false;
     }
     return true;
@@ -34,7 +27,7 @@ isPalindrome('Лёша на полке клопа нашёл '); // true
 
 // Функция, извлекающая цифры из строки
 
-const extractNumbers = function (string) {
+const extractNumbers = (string) => {
   const numberToString = String(string);
   return (typeof string === 'string') ? parseInt(string.replace(/\D/g, ''), 10) : parseInt(numberToString.replace(/\D/g, ''), 10);
 };
