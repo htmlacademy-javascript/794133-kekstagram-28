@@ -55,8 +55,8 @@ const addCharsToBeginString = (inputString, minLength, charsString) => {
   return leadingChars + inputString;
 };
 
-addCharsToBeginString('1', 2, '0');
-addCharsToBeginString('1', 4, '0');
-addCharsToBeginString('q', 4, 'werty');
-addCharsToBeginString('q', 4, 'we');
-addCharsToBeginString('qwerty', 4, '0');
+addCharsToBeginString('1', 2, '0'); // '01'
+addCharsToBeginString('1', 4, '0'); // '0001'
+addCharsToBeginString('q', 4, 'werty'); // 'werq'
+addCharsToBeginString('q', 4, 'we'); // 'wweq'
+addCharsToBeginString('qwerty', 4, '0'); // 'qwerty'
