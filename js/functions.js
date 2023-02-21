@@ -2,10 +2,8 @@
 
 const checkStringLength = (string, testedLength) => string.length === testedLength;
 
-checkStringLength('Академия', 8); // true
 checkStringLength('Полезные материалы', 18); // true
 checkStringLength('Полезные материалы', 9); // false
-
 
 // Функция для проверки, является ли строка палиндромом.
 
@@ -20,25 +18,20 @@ const isPalindrome = (string) => {
   }
 };
 
-isPalindrome('Топот'); // true
 isPalindrome('ДовОд'); // true
 isPalindrome('Кекс'); // false
 isPalindrome('Лёша на полке клопа нашёл '); // true
 
 // Функция, извлекающая цифры из строки
 
-const extractNumbers = (string) => {
+const extractNumber = (string) => {
   const numberToString = String(string);
   return (typeof string === 'string') ? parseInt(string.replace(/\D/g, ''), 10) : parseInt(numberToString.replace(/\D/g, ''), 10);
 };
 
-extractNumbers('ECMAScript 2022'); // 2022
-extractNumbers('1 кефир, 0.5 батона'); // 105
-extractNumbers('а я томат'); // NaN
-extractNumbers('2023 год'); // 2023
-extractNumbers(-1); // 1
-extractNumbers(2023); // 2023
-extractNumbers(1.5); // 15
+extractNumber('ECMAScript 2022'); // 2022
+extractNumber('а я томат'); // NaN
+extractNumber(-1); // 1
 
 
 // Функция, которая принимает три параметра: исходную строку, минимальную длину и строку с добавочными символами — и возвращает исходную строку, дополненную указанными символами до заданной длины.
@@ -56,7 +49,5 @@ const addCharsToBeginString = (inputString, minLength, charsString) => {
 };
 
 addCharsToBeginString('1', 2, '0'); // '01'
-addCharsToBeginString('1', 4, '0'); // '0001'
-addCharsToBeginString('q', 4, 'werty'); // 'werq'
 addCharsToBeginString('q', 4, 'we'); // 'wweq'
 addCharsToBeginString('qwerty', 4, '0'); // 'qwerty'
