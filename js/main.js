@@ -11,7 +11,7 @@ const NAMES = [
   'Николай'
 ];
 
-const MESSAGE = [
+const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -50,7 +50,7 @@ const DESCRIPTIONS = [
 
 const PHOTO_COUNT = 25;
 
-// Поиска рандомного числа
+// Поиск рандомного числа
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -61,7 +61,7 @@ const getRandomInteger = (a, b) => {
 
 // Создание уникального идентификатора
 
-function createRandomIdFromRangeGenerator (min, max) {
+const createRandomIdFromRangeGenerator = (min, max) => {
   const previousValues = [];
 
   return function () {
@@ -75,40 +75,47 @@ function createRandomIdFromRangeGenerator (min, max) {
     previousValues.push(currentValue);
     return currentValue;
   };
-}
-
-const commentsCount = getRandomInteger(1, 3);
-const generatePhotoId = createRandomIdFromRangeGenerator(1, 25);
-const generatePhotoUrl = createRandomIdFromRangeGenerator(1, 25);
-const generateCommentId = createRandomIdFromRangeGenerator(1, 100);
-const generateImgUrl = createRandomIdFromRangeGenerator(1, 6);
+};
 
 // Поиск рандомного элемента из массива
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
+// Генерация id и url для фото и комментария
+
+const generatePhotoId = createRandomIdFromRangeGenerator(1, 25);
+const generatePhotoUrl = createRandomIdFromRangeGenerator(1, 25);
+const generateCommentId = createRandomIdFromRangeGenerator(1, 100);
+
 // Создание комментария
 
 const createComment = () => ({
   id: generateCommentId(),
-  avatar: `img/avatar-${generateImgUrl()}.svg`,
-  message: getRandomArrayElement(MESSAGE),
+  avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+  message: getRandomArrayElement(MESSAGES),
   name: getRandomArrayElement(NAMES),
 });
 
-// Создание произвольного числа объектов
+// Создание произвольного числа комментариев
 
-const photoСomments = Array.from({length: commentsCount}, createComment);
+const createRandomCountComments = () => {
+  const comments = Array.from({length: getRandomInteger(1, 3)}, createComment);
+  return comments;
+};
 
 // Создание фото с комментариями
 
-const createPhoto = () => ({
-  id: generatePhotoId(),
-  url: `photos/${generatePhotoUrl()}.jpg`,
-  description: getRandomArrayElement(DESCRIPTIONS),
-  likes: getRandomInteger(15, 200),
-  comments: photoСomments,
-});
+const createPhoto = () => {
+  const photoUrl = generatePhotoUrl();
+
+  return {
+    id: generatePhotoId(),
+    url: `photos/${photoUrl}.jpg`,
+    description: DESCRIPTIONS[photoUrl - 1],
+    likes: getRandomInteger(15, 200),
+    comments: createRandomCountComments(),
+  };
+};
 
 // Создание галереи фото
 
@@ -116,4 +123,3 @@ const photoGallery = Array.from({length: PHOTO_COUNT}, createPhoto);
 
 // eslint-disable-next-line no-console
 console.log(photoGallery);
-
