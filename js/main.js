@@ -98,10 +98,7 @@ const createComment = () => ({
 
 // Создание произвольного числа комментариев
 
-const createRandomCountComments = () => {
-  const comments = Array.from({length: getRandomInteger(1, 3)}, createComment);
-  return comments;
-};
+const createRandomCountComments = () => Array.from({length: getRandomInteger(1, 3)}, createComment);
 
 // Создание фото с комментариями
 
