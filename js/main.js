@@ -77,9 +77,15 @@ const createRandomIdFromRangeGenerator = (min, max) => {
   };
 };
 
-// Поиск рандомного элемента из массива
+// Получение случайного элемента(ов) массива
 
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+const getRandomCountOfArrayElements = (elements, numElements) => {
+  if (elements.length === 0 || numElements > elements.length) {
+    return null;
+  }
+  elements.sort(() => Math.random() - 0.5);
+  return elements.slice(0, numElements).join(' ');
+};
 
 // Генерация id и url для фото и комментария
 
@@ -92,8 +98,8 @@ const generateCommentId = createRandomIdFromRangeGenerator(1, 100);
 const createComment = () => ({
   id: generateCommentId(),
   avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-  message: getRandomArrayElement(MESSAGES),
-  name: getRandomArrayElement(NAMES),
+  message: getRandomCountOfArrayElements(MESSAGES, getRandomInteger(1, 2)),
+  name: getRandomCountOfArrayElements(NAMES, 1),
 });
 
 // Создание произвольного числа комментариев
