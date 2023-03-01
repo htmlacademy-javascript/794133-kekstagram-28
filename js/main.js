@@ -85,14 +85,14 @@ const createRandomIdFromRangeGenerator = (min, max) => {
   };
 };
 
-// Получение случайного элемента(ов) массива
+// Получение случайных элементов массива
 
-const getRandomCountOfArrayElements = (elements, numElements) => {
-  if (elements.length === 0 || numElements > elements.length) {
-    return null;
+const getRandomArrayElements = (array, numberOfElements) => {
+  if (array.length === 0 || numberOfElements > array.length) {
+    return [];
   }
-  elements.sort(() => Math.random() - 0.5);
-  return elements.slice(0, numElements).join(' ');
+  array.sort(() => Math.random() - 0.5);
+  return array.slice(0, numberOfElements).join(' ');
 };
 
 // Генерация id для фото и комментария
@@ -105,8 +105,8 @@ const generateCommentId = createRandomIdFromRangeGenerator(COMMENT_ID_START, COM
 const createComment = () => ({
   id: generateCommentId(),
   avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-  message: getRandomCountOfArrayElements(MESSAGES, getRandomInteger(1, 2)),
-  name: getRandomCountOfArrayElements(NAMES, 1),
+  message: getRandomArrayElements(MESSAGES, getRandomInteger(1, 2)),
+  name: getRandomArrayElements(NAMES, 1),
 });
 
 // Создание произвольного числа комментариев
@@ -131,5 +131,5 @@ const createPhoto = () => {
 
 const createPhotoGallery = () => Array.from({length: PHOTO_COUNT}, createPhoto);
 
-// eslint-disable-next-line no-console
-console.log(createPhotoGallery());
+
+createPhotoGallery();
