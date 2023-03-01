@@ -1,3 +1,13 @@
+const PHOTO_COUNT = 25;
+const PHOTO_ID_START = 1;
+const PHOTO_ID_END = 25;
+const COMMENT_ID_START = 1;
+const COMMENT_ID_END = 100;
+const LIKE_COUNT_MIN = 15;
+const LIKE_COUNT_MAX = 200;
+const COMMENT_COUNT_MIN = 0;
+const COMMENT_COUNT_MAX = 3;
+
 const NAMES = [
   'Андрей',
   'Анна',
@@ -48,8 +58,6 @@ const DESCRIPTIONS = [
   'Путешествие на машине'
 ];
 
-const PHOTO_COUNT = 25;
-
 // Поиск рандомного числа
 
 const getRandomInteger = (a, b) => {
@@ -87,11 +95,10 @@ const getRandomCountOfArrayElements = (elements, numElements) => {
   return elements.slice(0, numElements).join(' ');
 };
 
-// Генерация id и url для фото и комментария
+// Генерация id для фото и комментария
 
-const generatePhotoId = createRandomIdFromRangeGenerator(1, 25);
-const generatePhotoUrl = createRandomIdFromRangeGenerator(1, 25);
-const generateCommentId = createRandomIdFromRangeGenerator(1, 100);
+const generatePhotoId = createRandomIdFromRangeGenerator(PHOTO_ID_START, PHOTO_ID_END);
+const generateCommentId = createRandomIdFromRangeGenerator(COMMENT_ID_START, COMMENT_ID_END);
 
 // Создание комментария
 
@@ -104,25 +111,25 @@ const createComment = () => ({
 
 // Создание произвольного числа комментариев
 
-const createRandomCountComments = () => Array.from({length: getRandomInteger(1, 3)}, createComment);
+const createRandomCountComments = () => Array.from({length: getRandomInteger(COMMENT_COUNT_MIN, COMMENT_COUNT_MAX)}, createComment);
 
 // Создание фото с комментариями
 
 const createPhoto = () => {
-  const photoUrl = generatePhotoUrl();
+  const photoId = generatePhotoId();
 
   return {
-    id: generatePhotoId(),
-    url: `photos/${photoUrl}.jpg`,
-    description: DESCRIPTIONS[photoUrl - 1],
-    likes: getRandomInteger(15, 200),
+    id: photoId,
+    url: `photos/${photoId}.jpg`,
+    description: DESCRIPTIONS[photoId - 1],
+    likes: getRandomInteger(LIKE_COUNT_MIN, LIKE_COUNT_MAX),
     comments: createRandomCountComments(),
   };
 };
 
 // Создание галереи фото
 
-const photoGallery = Array.from({length: PHOTO_COUNT}, createPhoto);
+const createPhotoGallery = () => Array.from({length: PHOTO_COUNT}, createPhoto);
 
 // eslint-disable-next-line no-console
-console.log(photoGallery);
+console.log(createPhotoGallery());
