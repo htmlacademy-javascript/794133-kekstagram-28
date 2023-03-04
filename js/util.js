@@ -35,4 +35,4 @@ const getRandomArrayElements = (array, numberOfElements) => {
   return array.slice(0, numberOfElements).join(' ');
 };
 
-export { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElements};
+export {getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElements};

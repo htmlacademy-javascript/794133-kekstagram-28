@@ -1,4 +1,4 @@
-import { getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElements} from './util.js';
+import {getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElements} from './util.js';
 
 const PHOTO_COUNT = 25;
 const PHOTO_ID_START = 1;
@@ -96,4 +96,4 @@ const createPhoto = () => {
 
 const createPhotoGallery = () => Array.from({length: PHOTO_COUNT}, createPhoto);
 
-export { createPhotoGallery };
+export {createPhotoGallery};
