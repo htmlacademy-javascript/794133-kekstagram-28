@@ -1,3 +1,2 @@
-import {createPhotoGallery} from './data.js';
+import './thumbnails.js';
 
-createPhotoGallery();
