@@ -1,22 +1,30 @@
-import {createPhotoGallery} from './data.js';
+import {renderBigPictureFullScreen} from './big-picture-full-size.js';
 
 const photoContainer = document.querySelector('.pictures');
 const photoTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const photoGallery = createPhotoGallery();
 
-const createThumbnail = ({url, likes, comments}) => {
+// Создание миниатюры фото
+
+const createThumbnail = (picture) => {
   const thumbnail = photoTemplate.cloneNode(true);
-  thumbnail.querySelector('.picture__img').src = url;
-  thumbnail.querySelector('.picture__likes').textContent = likes;
-  thumbnail.querySelector('.picture__comments').textContent = comments.length;
+
+  thumbnail.querySelector('.picture__img').src = picture.url;
+  thumbnail.querySelector('.picture__likes').textContent = picture.likes;
+  thumbnail.querySelector('.picture__comments').textContent = picture.comments.length;
+
+  thumbnail.addEventListener('click', () => {
+    renderBigPictureFullScreen(picture);
+  });
 
   return thumbnail;
 };
 
-const renderThumbnails = () => {
+// Генерация миниатюр
+
+const renderThumbnails = (pictures) => {
   const photoGalleryFragment = document.createDocumentFragment();
-  photoGallery.forEach((photo) => {
-    photoGalleryFragment.append(createThumbnail(photo));
+  pictures.forEach((picture) => {
+    photoGalleryFragment.append(createThumbnail(picture));
   });
   photoContainer.append(photoGalleryFragment);
 };
