@@ -11,11 +11,11 @@ const createThumbnail = (picture) => {
   thumbnail.querySelector('.picture__img').src = picture.url;
   thumbnail.querySelector('.picture__likes').textContent = picture.likes;
   thumbnail.querySelector('.picture__comments').textContent = picture.comments.length;
+  thumbnail.dataset.thumbnailId = picture.id;
 
   thumbnail.addEventListener('click', () => {
     renderBigPictureFullScreen(picture);
   });
-
   return thumbnail;
 };
 
@@ -30,3 +30,5 @@ const renderThumbnails = (pictures) => {
 };
 
 export {renderThumbnails};
+
+
