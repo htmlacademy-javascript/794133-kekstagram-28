@@ -8,7 +8,7 @@ const COMMENT_ID_END = 100;
 const LIKE_COUNT_MIN = 15;
 const LIKE_COUNT_MAX = 200;
 const COMMENT_COUNT_MIN = 0;
-const COMMENT_COUNT_MAX = 5;
+const COMMENT_COUNT_MAX = 15;
 
 const NAMES = [
   'Андрей',
@@ -47,7 +47,7 @@ const DESCRIPTIONS = [
   'Автомобиль белый марки "Ауди"',
   'Летний салат',
   'Кот на суши',
-  'Ултрамодные сапоги',
+  'Ультрамодные сапоги',
   'Вид сверху на горы',
   'Выступление хора на сцене',
   'Ретро автомобиль красного цвета',
