@@ -11,7 +11,7 @@ const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
 const COMMENTS_TO_SHOW_INITIAL = 5;
 let currentCommentsCount = COMMENTS_TO_SHOW_INITIAL;
-let currentPicture;
+let updateLoadMoreClick;
 
 // Открытие большого фото
 
@@ -61,7 +61,6 @@ const createCommentOnBigPhoto = (comment) => {
 // Воспроизведение комментариев на большом фото
 
 const renderComments = (comments) => {
-
   const commentsFragment = document.createDocumentFragment();
   comments.slice(0, currentCommentsCount).forEach((comment) => {
     commentsFragment.append(createCommentOnBigPhoto(comment));
@@ -78,23 +77,19 @@ const renderComments = (comments) => {
   socialCommentCount.textContent = `${currentCommentsCount} из ${comments.length} комментариев`;
 };
 
-// Обновление комментариев при клике
-
-function updateLoadMoreClick () {
-  currentCommentsCount += COMMENTS_TO_SHOW_INITIAL;
-  renderComments(currentPicture.comments);
-}
-
 // Воспроизведение большого фото
 
 const renderBigPictureFullScreen = (picture) => {
   openFullSizePhoto();
-  currentPicture = picture;
   currentCommentsCount = COMMENTS_TO_SHOW_INITIAL;
   bigPictureImg.src = picture.url;
   likesCount.textContent = picture.likes;
   socialCaption.textContent = picture.description;
   commentsCount.textContent = picture.comments.length;
+  updateLoadMoreClick = () => {
+    currentCommentsCount += COMMENTS_TO_SHOW_INITIAL;
+    renderComments(picture.comments);
+  };
   commentsLoader.addEventListener('click', updateLoadMoreClick);
   renderComments(picture.comments);
 };
