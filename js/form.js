@@ -15,7 +15,7 @@ const pristine = new Pristine(uploadSelectImageForm, {
 
 // Открытие окна с изображением для редактирования
 
-const openImageEditing = () => {
+const onOpenModal = () => {
   imageOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
 
@@ -24,44 +24,36 @@ const openImageEditing = () => {
 
 // Закрытие окна с изображением для редактирования
 
-const closeImageEditing = () => {
+const onCloseModal = () => {
   uploadSelectImageForm.reset();
   pristine.reset();
   imageOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
 
+  uploadCancel.removeEventListener('click', onCloseModal);
   document.removeEventListener('keydown', onDocumentKeydown);
 };
+
+// Проверка активности полей ввода
+
+const isInputFieldInFocus = () => document.activeElement === hashtagInputField || document.activeElement === commentInputField;
 
 // Закрытие окна нажатием клавиши ESC
 
 function onDocumentKeydown (evt) {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' && !isInputFieldInFocus()) {
     evt.preventDefault();
 
-    closeImageEditing();
+    onCloseModal();
   }
 }
-
-// Блокировка окна при фокусе на поле ввода хэш-тега
-
-hashtagInputField.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
-    evt.stopPropagation();
-  }
-});
-
-// Блокировка окна при фокусе на поле ввода комментария
-
-commentInputField.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
-    evt.stopPropagation();
-  }
-});
 
 // Функция, проверяющая хэш-тег
 
 const isValidHashtag = (string) => {
+  if (string.length === 0) {
+    return true;
+  }
   const hashtagPattern = /^#[a-zа-яё0-9]{1,19}$/i;
   return hashtagPattern.test(string);
 };
@@ -89,9 +81,6 @@ const checkStringForDublicateHashtags = (string) => {
 // Проверка строки на количество хэш-тегов
 
 const checkCountHashtags = (string) => {
-  if (string.length === 0) {
-    return true;
-  }
   const stringAsAnArray = string.trim().split(' ');
   return stringAsAnArray.length <= 5;
 };
@@ -107,17 +96,13 @@ pristine.addValidator(commentInputField, checkCountInputChars, 'Превышен
 
 // Валидация формы
 
-const formSubmit = (evt) => {
+const onFormSubmit = (evt) => {
   evt.preventDefault();
-
-  const isValid = pristine.validate();
-  if (isValid || hashtagInputField.value === '') {
+  if (pristine.validate()) {
     uploadSelectImageForm.submit();
-    pristine.reset();
-  //closeImageEditing();
   }
 };
 
-uploadFileInput.addEventListener('change', openImageEditing);
-uploadCancel.addEventListener('click', closeImageEditing);
-uploadSelectImageForm.addEventListener('submit', formSubmit);
+uploadFileInput.addEventListener('change', onOpenModal);
+uploadCancel.addEventListener('click', onCloseModal);
+uploadSelectImageForm.addEventListener('submit', onFormSubmit);
