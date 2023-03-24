@@ -1,3 +1,6 @@
+import {setDefaultScale} from './image-scale.js';
+import {resetEffects} from './image-effects.js';
+
 const uploadFileInput = document.querySelector('#upload-file');
 const uploadSelectImageForm = document.querySelector('#upload-select-image');
 const imageOverlay = document.querySelector('.img-upload__overlay');
@@ -6,20 +9,32 @@ const body = document.querySelector('body');
 const hashtagInputField = document.querySelector('.text__hashtags');
 const commentInputField = document.querySelector('.text__description');
 
-
 const pristine = new Pristine(uploadSelectImageForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent:'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
+// Валидация формы
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+
+  if (pristine.validate()) {
+    uploadSelectImageForm.submit();
+  }
+  uploadSelectImageForm.removeEventListener('submit', onFormSubmit);
+};
+
 // Открытие окна с изображением для редактирования
 
 const onOpenModal = () => {
   imageOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
+  setDefaultScale();
 
   document.addEventListener('keydown', onDocumentKeydown);
+  uploadSelectImageForm.addEventListener('submit', onFormSubmit);
 };
 
 // Закрытие окна с изображением для редактирования
@@ -27,11 +42,11 @@ const onOpenModal = () => {
 const onCloseModal = () => {
   uploadSelectImageForm.reset();
   pristine.reset();
+  resetEffects();
   imageOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
-
-  uploadCancel.removeEventListener('click', onCloseModal);
   document.removeEventListener('keydown', onDocumentKeydown);
+  uploadSelectImageForm.removeEventListener('submit', onFormSubmit);
 };
 
 // Проверка активности полей ввода
@@ -94,15 +109,5 @@ pristine.addValidator(hashtagInputField, checkCountHashtags, 'Количеств
 pristine.addValidator(hashtagInputField, checkStringForDublicateHashtags, 'Хэш-теги повторяются');
 pristine.addValidator(commentInputField, checkCountInputChars, 'Превышено количество введенных символов');
 
-// Валидация формы
-
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    uploadSelectImageForm.submit();
-  }
-};
-
 uploadFileInput.addEventListener('change', onOpenModal);
 uploadCancel.addEventListener('click', onCloseModal);
-uploadSelectImageForm.addEventListener('submit', onFormSubmit);
