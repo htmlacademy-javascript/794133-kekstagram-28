@@ -1,5 +1,5 @@
 const bigPictureModal = document.querySelector('.big-picture');
-const bigPictureImg = bigPictureModal.querySelector('.big-picture__img').querySelector('img');
+const bigPictureImg = bigPictureModal.querySelector('.big-picture__img img');
 const likesCount = bigPictureModal.querySelector('.likes-count');
 const commentsCount = bigPictureModal.querySelector('.comments-count');
 const btnCloseBigPicture = bigPictureModal.querySelector('.big-picture__cancel');
