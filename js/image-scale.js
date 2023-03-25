@@ -1,12 +1,13 @@
+const MAX_SCALE = 100;
+const MIN_SCALE = 25;
+const SCALE_STEP = 25;
+const DEFAULT_SCALE = 100;
+
 const btnSmall = document.querySelector('.scale__control--smaller');
 const btnBig = document.querySelector('.scale__control--bigger');
 const inputScaleControl = document.querySelector('.scale__control--value');
 const imageUpload = document.querySelector('.img-upload__preview img');
 
-const MAX_SCALE = 100;
-const MIN_SCALE = 25;
-const SCALE_STEP = 25;
-const DEFAULT_SCALE = 100;
 
 // Изменение масштаба изображения
 

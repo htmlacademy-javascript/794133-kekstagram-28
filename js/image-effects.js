@@ -1,11 +1,5 @@
 import {imageUpload} from './image-scale.js';
 
-const effectsContainer = document.querySelector('.img-upload__effects');
-const effectSlider = document.querySelector('.effect-level__slider');
-const effectValue = document.querySelector('.effect-level__value');
-const effectLevel = document.querySelector('.img-upload__effect-level');
-
-
 const EFFECTS = [
   {
     name: 'none',
@@ -78,6 +72,12 @@ const EFFECTS = [
 const DEFAULT_EFFECT = EFFECTS[0];
 let currentEffect = DEFAULT_EFFECT;
 
+const effectsContainer = document.querySelector('.img-upload__effects');
+const effectSlider = document.querySelector('.effect-level__slider');
+const effectValue = document.querySelector('.effect-level__value');
+const effectLevel = document.querySelector('.img-upload__effect-level');
+
+
 const isDefault = () => currentEffect === DEFAULT_EFFECT;
 
 // Показать ползунок
@@ -91,25 +91,6 @@ const showSlider = () => {
 const hideSlider = () => {
   effectLevel.classList.add('hidden');
 };
-
-noUiSlider.create(effectSlider, {
-  range: DEFAULT_EFFECT.range,
-  step: DEFAULT_EFFECT.step,
-  start: DEFAULT_EFFECT.start,
-  connect: 'lower',
-  format: {
-    to: function (value) {
-      if (Number.isInteger(value)) {
-        return value.toFixed(0);
-      }
-      return value.toFixed(1);
-    },
-    from: function (value) {
-      return parseFloat(value);
-    },
-  },
-});
-hideSlider();
 
 // Обновить ползунок
 
@@ -156,6 +137,27 @@ const resetEffects = () => {
   currentEffect = DEFAULT_EFFECT;
   updateSlider();
 };
+
+noUiSlider.create(effectSlider, {
+  range: DEFAULT_EFFECT.range,
+  step: DEFAULT_EFFECT.step,
+  start: DEFAULT_EFFECT.start,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(1);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+
+hideSlider();
+
 
 effectsContainer.addEventListener('change', onEffectsChange);
 effectSlider.noUiSlider.on('update', onSliderUpdate);
