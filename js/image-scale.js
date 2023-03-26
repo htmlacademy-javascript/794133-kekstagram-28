@@ -3,16 +3,16 @@ const MIN_SCALE = 25;
 const SCALE_STEP = 25;
 const DEFAULT_SCALE = 100;
 
-const btnSmall = document.querySelector('.scale__control--smaller');
-const btnBig = document.querySelector('.scale__control--bigger');
+const zoomOutBtn = document.querySelector('.scale__control--smaller');
+const zoomInBtn = document.querySelector('.scale__control--bigger');
 const inputScaleControl = document.querySelector('.scale__control--value');
-const imageUpload = document.querySelector('.img-upload__preview img');
+const uploadImg = document.querySelector('.img-upload__preview img');
 
 
 // Изменение масштаба изображения
 
 const scaleImage = (value) => {
-  imageUpload.style.transform = `scale(${value / 100})`;
+  uploadImg.style.transform = `scale(${value / 100})`;
 };
 
 // Уменьшение масштаба
@@ -46,7 +46,7 @@ const setDefaultScale = () => {
   scaleImage(DEFAULT_SCALE);
 };
 
-btnSmall.addEventListener('click', onZoomOut);
-btnBig.addEventListener('click', onZoomIn);
+zoomOutBtn.addEventListener('click', onZoomOut);
+zoomInBtn.addEventListener('click', onZoomIn);
 
-export {setDefaultScale, imageUpload};
+export {setDefaultScale, uploadImg};

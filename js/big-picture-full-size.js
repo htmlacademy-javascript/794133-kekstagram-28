@@ -2,7 +2,7 @@ const bigPictureModal = document.querySelector('.big-picture');
 const bigPictureImg = bigPictureModal.querySelector('.big-picture__img img');
 const likesCount = bigPictureModal.querySelector('.likes-count');
 const commentsCount = bigPictureModal.querySelector('.comments-count');
-const btnCloseBigPicture = bigPictureModal.querySelector('.big-picture__cancel');
+const closeBigPictureBtn = bigPictureModal.querySelector('.big-picture__cancel');
 const socialCommentList = document.querySelector('.social__comments');
 const socialComment = socialCommentList.querySelector('.social__comment');
 const socialCommentCount = bigPictureModal.querySelector('.social__comment-count');
@@ -34,7 +34,7 @@ const closeFullSizePhoto = () => {
 
 // Закрытие фото кликом по кнопке закрытия
 
-btnCloseBigPicture.addEventListener('click', () => {
+closeBigPictureBtn.addEventListener('click', () => {
   closeFullSizePhoto();
 });
 

@@ -1,4 +1,4 @@
-import {imageUpload} from './image-scale.js';
+import {uploadImg} from './image-scale.js';
 
 const EFFECTS = [
   {
@@ -115,7 +115,7 @@ const onEffectsChange = (evt) => {
     return;
   }
   currentEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
-  imageUpload.className = `effects__preview--${currentEffect.name}`;
+  uploadImg.className = `effects__preview--${currentEffect.name}`;
   updateSlider();
 };
 
@@ -125,9 +125,9 @@ const onSliderUpdate = () => {
   const sliderValue = effectSlider.noUiSlider.get();
   effectValue.value = sliderValue;
   if (isDefault()) {
-    imageUpload.style.filter = DEFAULT_EFFECT.filter;
+    uploadImg.style.filter = DEFAULT_EFFECT.filter;
   } else {
-    imageUpload.style.filter = `${currentEffect.filter}(${sliderValue}${currentEffect.unit})`;
+    uploadImg.style.filter = `${currentEffect.filter}(${sliderValue}${currentEffect.unit})`;
   }
 };
 

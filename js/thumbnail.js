@@ -2,6 +2,9 @@ import {renderBigPictureFullScreen} from './big-picture-full-size.js';
 
 const photoContainer = document.querySelector('.pictures');
 const photoTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const picturesTitle = photoContainer.querySelector('.pictures__title');
+
+picturesTitle.classList.remove('visually-hidden');
 
 // Создание миниатюры фото
 
@@ -30,5 +33,3 @@ const renderThumbnails = (pictures) => {
 };
 
 export {renderThumbnails};
-
-
