@@ -1,5 +1,6 @@
-import {createPhotoGallery} from './data.js';
-import {renderThumbnails} from './thumbnail.js';
-import './form.js';
+import {setUserFormSubmit, onCloseModal} from './form.js';
+import {getData} from './api.js';
 
-renderThumbnails(createPhotoGallery());
+getData();
+
+setUserFormSubmit(onCloseModal);
