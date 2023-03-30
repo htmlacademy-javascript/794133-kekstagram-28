@@ -1,5 +1,15 @@
-import {createPhotoGallery} from './data.js';
+import {getData} from './api.js';
 import {renderThumbnails} from './thumbnail.js';
-import './form.js';
+import {showAlert} from './util.js';
+import {setUserFormSubmit} from './form.js';
 
-renderThumbnails(createPhotoGallery());
+
+getData()
+  .then((photos) => {
+    renderThumbnails(photos);
+  })
+  .catch((err) => {
+    showAlert(err.message);
+  });
+
+setUserFormSubmit();

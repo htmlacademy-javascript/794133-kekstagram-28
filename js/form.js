@@ -1,5 +1,12 @@
 import {setDefaultScale} from './image-scale.js';
 import {resetEffects} from './image-effects.js';
+import {sendData} from './api.js';
+import {showErrorWindow, showSuccessWindow} from './success-error-message.js';
+
+const submitButtonText = {
+  INITIAL: 'Опубликовать',
+  PUBLICATION: 'Публикую...',
+};
 
 const uploadFileInput = document.querySelector('#upload-file');
 const uploadSelectImageForm = document.querySelector('#upload-select-image');
@@ -8,6 +15,7 @@ const uploadCancel = imageOverlay.querySelector('#upload-cancel');
 const body = document.querySelector('body');
 const hashtagInputField = document.querySelector('.text__hashtags');
 const commentInputField = document.querySelector('.text__description');
+const submitBtn = document.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(uploadSelectImageForm, {
   classTo: 'img-upload__field-wrapper',
@@ -15,38 +23,25 @@ const pristine = new Pristine(uploadSelectImageForm, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
-// Валидация формы
-
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-
-  if (pristine.validate()) {
-    uploadSelectImageForm.submit();
-  }
-  uploadSelectImageForm.removeEventListener('submit', onFormSubmit);
-};
-
 // Открытие окна с изображением для редактирования
 
-const onOpenModal = () => {
+const onModalOpen = () => {
   imageOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   setDefaultScale();
 
   document.addEventListener('keydown', onDocumentKeydown);
-  uploadSelectImageForm.addEventListener('submit', onFormSubmit);
 };
 
 // Закрытие окна с изображением для редактирования
 
-const onCloseModal = () => {
+const onModalClose = () => {
   uploadSelectImageForm.reset();
   pristine.reset();
   resetEffects();
   imageOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  uploadSelectImageForm.removeEventListener('submit', onFormSubmit);
 };
 
 // Проверка активности полей ввода
@@ -59,7 +54,7 @@ function onDocumentKeydown (evt) {
   if (evt.key === 'Escape' && !isInputFieldInFocus()) {
     evt.preventDefault();
 
-    onCloseModal();
+    onModalClose();
   }
 }
 
@@ -109,5 +104,38 @@ pristine.addValidator(hashtagInputField, checkCountHashtags, 'Количеств
 pristine.addValidator(hashtagInputField, checkStringForDublicateHashtags, 'Хэш-теги повторяются');
 pristine.addValidator(commentInputField, checkCountInputChars, 'Превышено количество введенных символов');
 
-uploadFileInput.addEventListener('change', onOpenModal);
-uploadCancel.addEventListener('click', onCloseModal);
+const blockSubmitButton = () => {
+  submitBtn.disabled = true;
+  submitBtn.textContent = submitButtonText.PUBLICATION;
+};
+
+const unblockSubmitButton = () => {
+  submitBtn.disabled = false;
+  submitBtn.textContent = submitButtonText.INITIAL;
+};
+
+// Валидация формы
+
+const setUserFormSubmit = () => {
+  uploadSelectImageForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    if (pristine.validate()) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(() => {
+          onModalClose();
+          showSuccessWindow();
+        })
+        .catch(() => {
+          showErrorWindow();
+        })
+        .finally(unblockSubmitButton);
+    }
+  });
+};
+
+uploadFileInput.addEventListener('change', onModalOpen);
+uploadCancel.addEventListener('click', onModalClose);
+
+export {setUserFormSubmit, onDocumentKeydown};
