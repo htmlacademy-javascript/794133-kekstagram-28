@@ -1,7 +1,5 @@
 import {onDocumentKeydown} from './form.js';
 
-const errorText = 'Не удалось загрузить данные. Попробуйте обновить страницу';
-
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const successWindow = successTemplate.cloneNode(true);
 const successBtn = successWindow.querySelector('.success__button');
@@ -92,4 +90,4 @@ const showErrorWindow = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-export {errorText, showSuccessWindow, showErrorWindow};
+export {showSuccessWindow, showErrorWindow, errorWindow};

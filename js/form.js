@@ -1,7 +1,7 @@
 import {setDefaultScale} from './image-scale.js';
 import {resetEffects} from './image-effects.js';
-import {showAlert} from './util.js';
 import {sendData} from './api.js';
+import {showErrorWindow, showSuccessWindow} from './success-error-message.js';
 
 const submitButtonText = {
   INITIAL: 'Опубликовать',
@@ -25,7 +25,7 @@ const pristine = new Pristine(uploadSelectImageForm, {
 
 // Открытие окна с изображением для редактирования
 
-const onOpenModal = () => {
+const onModalOpen = () => {
   imageOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   setDefaultScale();
@@ -35,7 +35,7 @@ const onOpenModal = () => {
 
 // Закрытие окна с изображением для редактирования
 
-const onCloseModal = () => {
+const onModalClose = () => {
   uploadSelectImageForm.reset();
   pristine.reset();
   resetEffects();
@@ -54,7 +54,7 @@ function onDocumentKeydown (evt) {
   if (evt.key === 'Escape' && !isInputFieldInFocus()) {
     evt.preventDefault();
 
-    onCloseModal();
+    onModalClose();
   }
 }
 
@@ -116,23 +116,26 @@ const unblockSubmitButton = () => {
 
 // Валидация формы
 
-const setUserFormSubmit = (onSuccess) => {
+const setUserFormSubmit = () => {
   uploadSelectImageForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     if (pristine.validate()) {
       blockSubmitButton();
-      sendData(new FormData(evt.target), onSuccess)
-        .catch((err) => {
-          showAlert(err.message);
+      sendData(new FormData(evt.target))
+        .then(() => {
+          onModalClose();
+          showSuccessWindow();
+        })
+        .catch(() => {
+          showErrorWindow();
         })
         .finally(unblockSubmitButton);
-
     }
   });
 };
 
-uploadFileInput.addEventListener('change', onOpenModal);
-uploadCancel.addEventListener('click', onCloseModal);
+uploadFileInput.addEventListener('change', onModalOpen);
+uploadCancel.addEventListener('click', onModalClose);
 
-export {setUserFormSubmit, onCloseModal, onDocumentKeydown};
+export {setUserFormSubmit, onDocumentKeydown};

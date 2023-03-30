@@ -20,4 +20,5 @@ const showAlert = (message) => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
 };
+
 export {showAlert};
