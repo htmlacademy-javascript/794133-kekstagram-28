@@ -2,6 +2,9 @@ import {setDefaultScale} from './image-scale.js';
 import {resetEffects} from './image-effects.js';
 import {sendData} from './api.js';
 import {showErrorWindow, showSuccessWindow} from './success-error-message.js';
+import {uploadImg} from './image-scale.js';
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const submitButtonText = {
   INITIAL: 'Опубликовать',
@@ -42,6 +45,19 @@ const onModalClose = () => {
   imageOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+// Загрузка изображения в окно для редактирования
+
+const onPreviewImgUpload = () => {
+  const file = uploadFileInput.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    uploadImg.src = '';
+    uploadImg.src = URL.createObjectURL(file);
+  }
 };
 
 // Проверка активности полей ввода
@@ -135,7 +151,9 @@ const setUserFormSubmit = () => {
   });
 };
 
+
 uploadFileInput.addEventListener('change', onModalOpen);
+uploadFileInput.addEventListener('change', onPreviewImgUpload);
 uploadCancel.addEventListener('click', onModalClose);
 
 export {setUserFormSubmit, onDocumentKeydown};
