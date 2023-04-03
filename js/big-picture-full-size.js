@@ -1,3 +1,5 @@
+import {isEscapeKeydown} from './util.js';
+
 const bigPictureModal = document.querySelector('.big-picture');
 const bigPictureImg = bigPictureModal.querySelector('.big-picture__img img');
 const likesCount = bigPictureModal.querySelector('.likes-count');
@@ -9,11 +11,10 @@ const socialCommentCount = bigPictureModal.querySelector('.social__comment-count
 const socialCaption = bigPictureModal.querySelector('.social__caption');
 const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
+
 const COMMENTS_TO_SHOW_INITIAL = 5;
 let currentCommentsCount = COMMENTS_TO_SHOW_INITIAL;
 let updateLoadMoreClick;
-
-// Открытие большого фото
 
 const openFullSizePhoto = () => {
   bigPictureModal.classList.remove('hidden');
@@ -23,8 +24,6 @@ const openFullSizePhoto = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-// Функция закрытия большого фото
-
 const closeFullSizePhoto = () => {
   bigPictureModal.classList.add('hidden');
   body.classList.remove('modal-open');
@@ -32,23 +31,17 @@ const closeFullSizePhoto = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-// Закрытие фото кликом по кнопке закрытия
-
 closeBigPictureBtn.addEventListener('click', () => {
   closeFullSizePhoto();
 });
 
-// Закрытие фото с помощью кнопки Esc
-
 function onDocumentKeydown (evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKeydown) {
     evt.preventDefault();
 
     closeFullSizePhoto();
   }
 }
-
-// Создание комментария на большом фото
 
 const createCommentOnBigPhoto = (comment) => {
   const commentElement = socialComment.cloneNode(true);
@@ -57,8 +50,6 @@ const createCommentOnBigPhoto = (comment) => {
   commentElement.querySelector('.social__text').textContent = comment.message;
   return commentElement;
 };
-
-// Воспроизведение комментариев на большом фото
 
 const renderComments = (comments) => {
   const commentsFragment = document.createDocumentFragment();
@@ -76,8 +67,6 @@ const renderComments = (comments) => {
   }
   socialCommentCount.textContent = `${currentCommentsCount} из ${comments.length} комментариев`;
 };
-
-// Воспроизведение большого фото
 
 const renderBigPictureFullScreen = (picture) => {
   openFullSizePhoto();

@@ -2,8 +2,12 @@ import {setDefaultScale} from './image-scale.js';
 import {resetEffects} from './image-effects.js';
 import {sendData} from './api.js';
 import {showErrorWindow, showSuccessWindow} from './success-error-message.js';
+import {uploadImg} from './image-scale.js';
+import {isEscapeKeydown} from './util.js';
 
-const submitButtonText = {
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
+const SubmitButtonText = {
   INITIAL: 'Опубликовать',
   PUBLICATION: 'Публикую...',
 };
@@ -23,8 +27,6 @@ const pristine = new Pristine(uploadSelectImageForm, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
-// Открытие окна с изображением для редактирования
-
 const onModalOpen = () => {
   imageOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
@@ -32,8 +34,6 @@ const onModalOpen = () => {
 
   document.addEventListener('keydown', onDocumentKeydown);
 };
-
-// Закрытие окна с изображением для редактирования
 
 const onModalClose = () => {
   uploadSelectImageForm.reset();
@@ -44,21 +44,26 @@ const onModalClose = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-// Проверка активности полей ввода
+const onPreviewImgUpload = () => {
+  const file = uploadFileInput.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    uploadImg.src = '';
+    uploadImg.src = URL.createObjectURL(file);
+  }
+};
 
 const isInputFieldInFocus = () => document.activeElement === hashtagInputField || document.activeElement === commentInputField;
 
-// Закрытие окна нажатием клавиши ESC
-
 function onDocumentKeydown (evt) {
-  if (evt.key === 'Escape' && !isInputFieldInFocus()) {
+  if (isEscapeKeydown && !isInputFieldInFocus()) {
     evt.preventDefault();
 
     onModalClose();
   }
 }
-
-// Функция, проверяющая хэш-тег
 
 const isValidHashtag = (string) => {
   if (string.length === 0) {
@@ -68,14 +73,10 @@ const isValidHashtag = (string) => {
   return hashtagPattern.test(string);
 };
 
-// Проверка строки на наличие хэш-тегов
-
 const checkStringValidHashtag = (string) => {
   const stringAsAnArray = string.trim().split(' ');
   return stringAsAnArray.every(isValidHashtag);
 };
-
-// Проверка строки на повторяющиеся хэш-теги
 
 const checkStringForDublicateHashtags = (string) => {
   const stringAsAnArray = string.trim().split(' ');
@@ -88,14 +89,10 @@ const checkStringForDublicateHashtags = (string) => {
   return uniqueElements.length === stringAsAnArray.length;
 };
 
-// Проверка строки на количество хэш-тегов
-
 const checkCountHashtags = (string) => {
   const stringAsAnArray = string.trim().split(' ');
   return stringAsAnArray.length <= 5;
 };
-
-// Проверка строки на количество введенных символов
 
 const checkCountInputChars = (string) => string.length <= 140;
 
@@ -106,15 +103,13 @@ pristine.addValidator(commentInputField, checkCountInputChars, 'Превышен
 
 const blockSubmitButton = () => {
   submitBtn.disabled = true;
-  submitBtn.textContent = submitButtonText.PUBLICATION;
+  submitBtn.textContent = SubmitButtonText.PUBLICATION;
 };
 
 const unblockSubmitButton = () => {
   submitBtn.disabled = false;
-  submitBtn.textContent = submitButtonText.INITIAL;
+  submitBtn.textContent = SubmitButtonText.INITIAL;
 };
-
-// Валидация формы
 
 const setUserFormSubmit = () => {
   uploadSelectImageForm.addEventListener('submit', (evt) => {
@@ -136,6 +131,8 @@ const setUserFormSubmit = () => {
 };
 
 uploadFileInput.addEventListener('change', onModalOpen);
+uploadFileInput.addEventListener('change', onPreviewImgUpload);
 uploadCancel.addEventListener('click', onModalClose);
 
 export {setUserFormSubmit, onDocumentKeydown};
+
