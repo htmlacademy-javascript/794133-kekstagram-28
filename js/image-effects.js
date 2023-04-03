@@ -77,22 +77,15 @@ const effectSlider = document.querySelector('.effect-level__slider');
 const effectValue = document.querySelector('.effect-level__value');
 const effectLevel = document.querySelector('.img-upload__effect-level');
 
-
 const isDefault = () => currentEffect === DEFAULT_EFFECT;
-
-// Показать ползунок
 
 const showSlider = () => {
   effectLevel.classList.remove('hidden');
 };
 
-// Скрыть ползунок
-
 const hideSlider = () => {
   effectLevel.classList.add('hidden');
 };
-
-// Обновить ползунок
 
 const updateSlider = () => {
   effectSlider.noUiSlider.updateOptions({
@@ -108,8 +101,6 @@ const updateSlider = () => {
   }
 };
 
-// Изменение эффектов
-
 const onEffectsChange = (evt) => {
   if(!evt.target.classList.contains('effects__radio')) {
     return;
@@ -118,8 +109,6 @@ const onEffectsChange = (evt) => {
   uploadImg.className = `effects__preview--${currentEffect.NAME}`;
   updateSlider();
 };
-
-// Обновление ползунка
 
 const onSliderUpdate = () => {
   const sliderValue = effectSlider.noUiSlider.get();
@@ -130,8 +119,6 @@ const onSliderUpdate = () => {
     uploadImg.style.filter = `${currentEffect.FILTER}(${sliderValue}${currentEffect.UNIT})`;
   }
 };
-
-// Сброс эффектов
 
 const resetEffects = () => {
   currentEffect = DEFAULT_EFFECT;
@@ -157,7 +144,6 @@ noUiSlider.create(effectSlider, {
 });
 
 hideSlider();
-
 
 effectsContainer.addEventListener('change', onEffectsChange);
 effectSlider.noUiSlider.on('update', onSliderUpdate);

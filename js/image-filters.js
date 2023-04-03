@@ -10,47 +10,37 @@ const filterDefaultBtn = document.querySelector('#filter-default');
 const filterRandomBtn = document.querySelector('#filter-random');
 const filterDiscussedBtn = document.querySelector('#filter-discussed');
 
-let currentBtn = filterDefaultBtn;
+const showFilters = () => filterContainer.classList.remove('img-filters--inactive');
 
-// Удаление изображений
+const removeThumbnails = (thumbnails) => thumbnails.forEach((thumbnail) => thumbnail.remove());
 
-const deletePictures = (pictures) => pictures.forEach((picture) => picture.remove());
+const sortByCommentCount = (a, b) => b.comments.length - a.comments.length;
 
-// Сортировка по числу комментариев
-
-const sortByCountComments = (a, b) => b.comments.length - a.comments.length;
-
-// Применить фильтры к изображениям
-
-const applyFilter = (pictures) => {
-  if (currentBtn === filterDefaultBtn) {
-    return pictures;
-  } else if (currentBtn === filterRandomBtn) {
-    return pictures.slice().sort(sortRandom).slice(0, NUMBER_OF_PICTURES_TO_SHOW);
-  } else if (currentBtn === filterDiscussedBtn) {
-    return pictures.slice().sort(sortByCountComments);
+const filterPhotos = (photos, filterBtn) => {
+  if (filterBtn === filterDefaultBtn) {
+    return photos;
+  } else if (filterBtn === filterRandomBtn) {
+    return photos.slice().sort(sortRandom).slice(0, NUMBER_OF_PICTURES_TO_SHOW);
+  } else if (filterBtn === filterDiscussedBtn) {
+    return photos.slice().sort(sortByCommentCount);
   }
 };
 
-// Фильтр по клику кнопки
-
-const onFilterBtnClick = (evt, photos) => {
-  const images = document.querySelectorAll('.picture');
-  currentBtn.classList.remove('img-filters__button--active');
-  currentBtn = evt.target;
-  currentBtn.classList.add('img-filters__button--active');
-  deletePictures(images);
-  renderThumbnails(applyFilter(photos));
+const handleFilterButtonClick = (event, photos) => {
+  const thumbnails = document.querySelectorAll('.picture');
+  const filterBtn = event.target;
+  filterDefaultBtn.classList.remove('img-filters__button--active');
+  filterRandomBtn.classList.remove('img-filters__button--active');
+  filterDiscussedBtn.classList.remove('img-filters__button--active');
+  filterBtn.classList.add('img-filters__button--active');
+  removeThumbnails(thumbnails);
+  renderThumbnails(filterPhotos(photos, filterBtn));
 };
 
-// Показ отфильтрованных изображений
-
-const showFilteredPictures = (photos) => {
-  filterContainer.classList.remove('img-filters--inactive');
-  filterForm.addEventListener('click', debounce((evt) => {
-    onFilterBtnClick(evt, photos);
+const setupFiltering = (photos) => {
+  filterForm.addEventListener('click', debounce((event) => {
+    handleFilterButtonClick(event, photos);
   }, TIMEOUT));
 };
 
-export {showFilteredPictures};
-
+export {setupFiltering, showFilters};

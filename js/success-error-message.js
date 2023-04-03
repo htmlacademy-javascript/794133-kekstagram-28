@@ -1,4 +1,5 @@
 import {onDocumentKeydown} from './form.js';
+import {isEscapeKeydown} from './util.js';
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const successWindow = successTemplate.cloneNode(true);
@@ -10,33 +11,25 @@ const errorWindow = errorTemplate.cloneNode(true);
 const errorBtn = errorWindow.querySelector('.error__button');
 const errorInner = errorWindow.querySelector('.error__inner');
 
-// Закрытие окна успеха
-
 const closeSuccessWindow = () => {
   successWindow.remove();
   document.removeEventListener('keydown', onSuccessKeydown);
   document.removeEventListener('click', onSuccessClick);
 };
 
-// Закрытие окна успеха по нажатию ESC
-
 function onSuccessKeydown (evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKeydown) {
     evt.preventDefault();
 
     closeSuccessWindow();
   }
 }
 
-// Закрытие окна успеха кликом по любой области
-
 function onSuccessClick (evt) {
   if (evt.target !== successInner) {
     closeSuccessWindow();
   }
 }
-
-// Показ окна успеха
 
 const showSuccessWindow = () => {
   document.body.append(successWindow);
@@ -49,8 +42,6 @@ const showSuccessWindow = () => {
   document.addEventListener('click', onSuccessClick);
 };
 
-// Закрытие окна ошибки
-
 const closeErrorWindow = () => {
   errorWindow.remove();
   document.removeEventListener('keydown', onErrorKeydown);
@@ -58,25 +49,19 @@ const closeErrorWindow = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-// Закрытие окна ошибки по нажатию ESC
-
 function onErrorKeydown (evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKeydown) {
     evt.preventDefault();
 
     closeErrorWindow();
   }
 }
 
-// Закрытие окна ошибки кликом по любой области
-
 function onErrorClick (evt) {
   if (evt.target !== errorInner) {
     closeErrorWindow();
   }
 }
-
-// Показ окна ошибки
 
 const showErrorWindow = () => {
   document.body.append(errorWindow);

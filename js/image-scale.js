@@ -8,14 +8,9 @@ const zoomInBtn = document.querySelector('.scale__control--bigger');
 const inputScaleControl = document.querySelector('.scale__control--value');
 const uploadImg = document.querySelector('.img-upload__preview img');
 
-
-// Изменение масштаба изображения
-
 const scaleImage = (value) => {
   uploadImg.style.transform = `scale(${value / 100})`;
 };
-
-// Уменьшение масштаба
 
 const onZoomOut = () => {
   const currentValue = parseInt(inputScaleControl.value, 10);
@@ -27,8 +22,6 @@ const onZoomOut = () => {
   scaleImage(result);
 };
 
-// Увеличение масштаба
-
 const onZoomIn = () => {
   const currentValue = parseInt(inputScaleControl.value, 10);
   let result = currentValue + SCALE_STEP;
@@ -38,8 +31,6 @@ const onZoomIn = () => {
   inputScaleControl.value = `${result}%`;
   scaleImage(result);
 };
-
-// Установление масштаба по умолчанию
 
 const setDefaultScale = () => {
   inputScaleControl.value = '100%';

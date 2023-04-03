@@ -6,8 +6,6 @@ const picturesTitle = photoContainer.querySelector('.pictures__title');
 
 picturesTitle.classList.remove('visually-hidden');
 
-// Создание миниатюры фото
-
 const createThumbnail = (picture) => {
   const thumbnail = photoTemplate.cloneNode(true);
 
@@ -20,8 +18,6 @@ const createThumbnail = (picture) => {
   });
   return thumbnail;
 };
-
-// Генерация миниатюр
 
 const renderThumbnails = (pictures) => {
   const photoGalleryFragment = document.createDocumentFragment();
