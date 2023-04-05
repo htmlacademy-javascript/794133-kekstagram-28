@@ -40,4 +40,4 @@ const setDefaultScale = () => {
 zoomOutBtn.addEventListener('click', onZoomOut);
 zoomInBtn.addEventListener('click', onZoomIn);
 
-export {setDefaultScale, uploadImg};
+export {setDefaultScale};

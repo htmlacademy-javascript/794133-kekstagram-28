@@ -12,8 +12,8 @@ const socialCaption = bigPictureModal.querySelector('.social__caption');
 const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
 
-const COMMENTS_TO_SHOW_INITIAL = 5;
-let currentCommentsCount = COMMENTS_TO_SHOW_INITIAL;
+const COMMENTS_COUNT = 5;
+let currentCommentsCount = COMMENTS_COUNT;
 let updateLoadMoreClick;
 
 const openFullSizePhoto = () => {
@@ -70,13 +70,13 @@ const renderComments = (comments) => {
 
 const renderBigPictureFullScreen = (picture) => {
   openFullSizePhoto();
-  currentCommentsCount = COMMENTS_TO_SHOW_INITIAL;
+  currentCommentsCount = COMMENTS_COUNT;
   bigPictureImg.src = picture.url;
   likesCount.textContent = picture.likes;
   socialCaption.textContent = picture.description;
   commentsCount.textContent = picture.comments.length;
   updateLoadMoreClick = () => {
-    currentCommentsCount += COMMENTS_TO_SHOW_INITIAL;
+    currentCommentsCount += COMMENTS_COUNT;
     renderComments(picture.comments);
   };
   commentsLoader.addEventListener('click', updateLoadMoreClick);

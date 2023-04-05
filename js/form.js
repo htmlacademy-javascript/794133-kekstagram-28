@@ -2,7 +2,6 @@ import {setDefaultScale} from './image-scale.js';
 import {resetEffects} from './image-effects.js';
 import {sendData} from './api.js';
 import {showErrorWindow, showSuccessWindow} from './success-error-message.js';
-import {uploadImg} from './image-scale.js';
 import {isEscapeKeydown} from './util.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
@@ -14,6 +13,7 @@ const SubmitButtonText = {
 
 const uploadFileInput = document.querySelector('#upload-file');
 const uploadSelectImageForm = document.querySelector('#upload-select-image');
+const uploadImg = document.querySelector('.img-upload__preview img');
 const imageOverlay = document.querySelector('.img-upload__overlay');
 const uploadCancel = imageOverlay.querySelector('#upload-cancel');
 const body = document.querySelector('body');
@@ -74,24 +74,24 @@ const isValidHashtag = (string) => {
 };
 
 const checkStringValidHashtag = (string) => {
-  const stringAsAnArray = string.trim().split(' ');
-  return stringAsAnArray.every(isValidHashtag);
+  const hashtagList = string.trim().split(' ');
+  return hashtagList.every(isValidHashtag);
 };
 
 const checkStringForDublicateHashtags = (string) => {
-  const stringAsAnArray = string.trim().split(' ');
+  const hashtagList = string.trim().split(' ');
   const uniqueElements = [];
-  for (let i = 0; i < stringAsAnArray.length; i++) {
-    if(!uniqueElements.includes(stringAsAnArray[i])) {
-      uniqueElements.push(stringAsAnArray[i]);
+  for (let i = 0; i < hashtagList.length; i++) {
+    if(!uniqueElements.includes(hashtagList[i])) {
+      uniqueElements.push(hashtagList[i]);
     }
   }
-  return uniqueElements.length === stringAsAnArray.length;
+  return uniqueElements.length === hashtagList.length;
 };
 
 const checkCountHashtags = (string) => {
-  const stringAsAnArray = string.trim().split(' ');
-  return stringAsAnArray.length <= 5;
+  const hashtagList = string.trim().split(' ');
+  return hashtagList.length <= 5;
 };
 
 const checkCountInputChars = (string) => string.length <= 140;
