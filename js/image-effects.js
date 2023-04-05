@@ -1,69 +1,69 @@
 const EFFECTS = [
   {
-    name: 'none',
-    filter: 'none',
-    range: {
+    NAME: 'none',
+    FILTER: 'none',
+    RANGE: {
       min: 0,
       max: 100,
     },
-    step: 1,
-    start: 100,
-    unit: ''
+    STEP: 1,
+    START: 100,
+    UNIT: ''
   },
   {
-    name: 'chrome',
-    filter: 'grayscale',
-    range: {
+    NAME: 'chrome',
+    FILTER: 'grayscale',
+    RANGE: {
       min: 0,
       max: 1,
     },
-    step: 0.1,
-    start: 1,
-    unit: ''
+    STEP: 0.1,
+    START: 1,
+    UNIT: ''
   },
   {
-    name: 'sepia',
-    filter: 'sepia',
-    range: {
+    NAME: 'sepia',
+    FILTER: 'sepia',
+    RANGE: {
       min: 0,
       max: 1,
     },
-    step: 0.1,
-    start: 1,
-    unit: ''
+    STEP: 0.1,
+    START: 1,
+    UNIT: ''
   },
   {
-    name: 'marvin',
-    filter: 'invert',
-    range: {
+    NAME: 'marvin',
+    FILTER: 'invert',
+    RANGE: {
       min: 0,
       max: 100,
     },
-    step: 1,
-    start: 100,
-    unit: '%'
+    STEP: 1,
+    START: 100,
+    UNIT: '%'
   },
   {
-    name: 'phobos',
-    filter: 'blur',
-    range: {
+    NAME: 'phobos',
+    FILTER: 'blur',
+    RANGE: {
       min: 0,
       max: 3,
     },
-    step: 0.1,
-    start: 3,
-    unit: 'px'
+    STEP: 0.1,
+    START: 3,
+    UNIT: 'px'
   },
   {
-    name: 'heat',
-    filter: 'brightness',
-    range: {
+    NAME: 'heat',
+    FILTER: 'brightness',
+    RANGE: {
       min: 1,
       max: 3,
     },
-    step: 0.1,
-    start: 3,
-    unit: ''
+    STEP: 0.1,
+    START: 3,
+    UNIT: ''
   }
 ];
 
@@ -89,9 +89,9 @@ const hideSlider = () => {
 
 const updateSlider = () => {
   effectSlider.noUiSlider.updateOptions({
-    range: currentEffect.range,
-    step: currentEffect.step,
-    start: currentEffect.start,
+    range: currentEffect.RANGE,
+    step: currentEffect.STEP,
+    start: currentEffect.START,
   });
 
   if (isDefault()) {
@@ -105,8 +105,8 @@ const onEffectsChange = (evt) => {
   if(!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  currentEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
-  uploadImg.className = `effects__preview--${currentEffect.name}`;
+  currentEffect = EFFECTS.find((effect) => effect.NAME === evt.target.value);
+  uploadImg.className = `effects__preview--${currentEffect.NAME}`;
   updateSlider();
 };
 
@@ -114,9 +114,9 @@ const onSliderUpdate = () => {
   const sliderValue = effectSlider.noUiSlider.get();
   effectValue.value = sliderValue;
   if (isDefault()) {
-    uploadImg.style.filter = DEFAULT_EFFECT.filter;
+    uploadImg.style.filter = DEFAULT_EFFECT.FILTER;
   } else {
-    uploadImg.style.filter = `${currentEffect.filter}(${sliderValue}${currentEffect.unit})`;
+    uploadImg.style.filter = `${currentEffect.FILTER}(${sliderValue}${currentEffect.UNIT})`;
   }
 };
 
@@ -126,9 +126,9 @@ const resetEffects = () => {
 };
 
 noUiSlider.create(effectSlider, {
-  range: DEFAULT_EFFECT.range,
-  step: DEFAULT_EFFECT.step,
-  start: DEFAULT_EFFECT.start,
+  range: DEFAULT_EFFECT.RANGE,
+  step: DEFAULT_EFFECT.STEP,
+  start: DEFAULT_EFFECT.START,
   connect: 'lower',
   format: {
     to: function (value) {
