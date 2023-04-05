@@ -1,5 +1,3 @@
-const uploadImg = document.querySelector('.img-upload__preview img');
-
 const EFFECTS = [
   {
     name: 'none',
@@ -70,12 +68,14 @@ const EFFECTS = [
 ];
 
 const DEFAULT_EFFECT = EFFECTS[0];
-let currentEffect = DEFAULT_EFFECT;
 
+const uploadImg = document.querySelector('.img-upload__preview img');
 const effectsContainer = document.querySelector('.img-upload__effects');
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectValue = document.querySelector('.effect-level__value');
 const effectLevel = document.querySelector('.img-upload__effect-level');
+
+let currentEffect = DEFAULT_EFFECT;
 
 const isDefault = () => currentEffect === DEFAULT_EFFECT;
 

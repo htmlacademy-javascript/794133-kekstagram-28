@@ -1,5 +1,7 @@
 import {isEscapeKeydown} from './util.js';
 
+const COMMENTS_COUNT = 5;
+
 const bigPictureModal = document.querySelector('.big-picture');
 const bigPictureImg = bigPictureModal.querySelector('.big-picture__img img');
 const likesCount = bigPictureModal.querySelector('.likes-count');
@@ -12,7 +14,6 @@ const socialCaption = bigPictureModal.querySelector('.social__caption');
 const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
 
-const COMMENTS_COUNT = 5;
 let currentCommentsCount = COMMENTS_COUNT;
 let updateLoadMoreClick;
 
