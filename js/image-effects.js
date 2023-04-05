@@ -1,6 +1,4 @@
-import {uploadImg} from './image-scale.js';
-
-const Effects = [
+const EFFECTS = [
   {
     NAME: 'none',
     FILTER: 'none',
@@ -69,13 +67,15 @@ const Effects = [
   }
 ];
 
-const DEFAULT_EFFECT = Effects[0];
-let currentEffect = DEFAULT_EFFECT;
+const DEFAULT_EFFECT = EFFECTS[0];
 
+const uploadImg = document.querySelector('.img-upload__preview img');
 const effectsContainer = document.querySelector('.img-upload__effects');
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectValue = document.querySelector('.effect-level__value');
 const effectLevel = document.querySelector('.img-upload__effect-level');
+
+let currentEffect = DEFAULT_EFFECT;
 
 const isDefault = () => currentEffect === DEFAULT_EFFECT;
 
@@ -105,7 +105,7 @@ const onEffectsChange = (evt) => {
   if(!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  currentEffect = Effects.find((effect) => effect.NAME === evt.target.value);
+  currentEffect = EFFECTS.find((effect) => effect.NAME === evt.target.value);
   uploadImg.className = `effects__preview--${currentEffect.NAME}`;
   updateSlider();
 };
